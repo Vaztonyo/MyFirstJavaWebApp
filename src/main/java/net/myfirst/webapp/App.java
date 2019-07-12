@@ -24,7 +24,7 @@ public class App {
                 msg[0] = "Bonjour " + request.params(":username");
             } else if(request.params(":language").equals("afrikaans")){
                 msg[0] = "Hallo " + request.params(":username");
-            } else if(request.params(":language").isEmpty()) {
+            } else {
                 msg[0] = "Hi " + request.params(":username");
             }
             return msg[0];
@@ -38,19 +38,24 @@ public class App {
             }
             return msg[0];
         });
+
         get("/hello", (request, response) -> {
             Map<String, Object> userNames = new HashMap<>();
             Map<String, Object> map = new HashMap<>();
             return new HandlebarsTemplateEngine()
                     .render(new ModelAndView(map, "hello.handlebars"));
         });
+
         post("/hello",(request, response) -> {
             Map<String, Object> map = new HashMap<>();
             Map<String, Object> userNames = new HashMap<>();
             String name = request.queryParams("username");
+            StringBuilder build = new StringBuilder();
 
+            build.append("Hi how are you today, ");
+            build.append(name);
             // create the greeting message
-            String greeting = "Hello, " + name;
+            String greeting = build.toString();
 
             // put it in the map which is passed to the template - the value will be merged into the template
             map.put("greeting", greeting);
